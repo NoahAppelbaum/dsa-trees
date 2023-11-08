@@ -10,11 +10,20 @@ class TreeNode {
 
   /** sumValues(): add up all values of invoking node and its children.
    * Returns sum as an integer. */
-  sumValues() {
-    let sum = this.val;
 
-    for (const child of this.children){
-      sum += child.val;
+  //base case: []
+
+  sumValues() {
+    let stack = [this];
+    let sum = 0;
+
+    while(stack.length){
+      let curr = stack.pop();
+      sum += curr.val;
+
+      if(curr.children.length){
+        stack.push(...curr.children);
+      }
     }
 
     return sum;
@@ -24,10 +33,18 @@ class TreeNode {
    * children, count how many nodes have even values. Returns that count as
    * an integer. */
   countEvens() {
-    let count = (this.val % 2 === 0 ? 1 : 0);
+    let stack = [this];
+    let count = 0;
 
-    for (const child of this.children) {
-      count += (child.val % 2 === 0 ? 1 : 0);
+    while(stack.length){
+      let curr = stack.pop();
+      if(curr.val % 2 === 0){
+        count++;
+      }
+
+      if(curr.children.length){
+        stack.push(...curr.children);
+      }
     }
 
     return count;
@@ -37,10 +54,18 @@ class TreeNode {
    * its children, return a count of the number of nodes whose value is greater
    * than lowerBound. */
   numGreater(lowerBound){
-    let count = (this.val > lowerBound ? 1 : 0);
+    let stack = [this];
+    let count = 0;
 
-    for (const child of this.children) {
-      count += (child.val > lowerBound ? 1 : 0);
+    while(stack.length){
+      let curr = stack.pop();
+      if(curr.val > lowerBound){
+        count++;
+      }
+
+      if(curr.children.length){
+        stack.push(...curr.children);
+      }
     }
 
     return count;
@@ -54,18 +79,30 @@ class Tree {
 
   /** sumValues(): add up all values in the tree. */
   sumValues() {
+    if(!this.root){
+      return 0;
+    }
 
+    return this.root.sumValues();
   }
 
   /** countEvens(): count all nodes in the tree that have even values. */
   countEvens() {
+    if(!this.root){
+      return 0;
+    }
 
+    return this.root.countEvens();
   }
 
   /** numGreater(lowerBound): return a count of the number of nodes
    * whose value is greater than lowerBound. */
   numGreater(lowerBound) {
+    if(!this.root){
+      return 0;
+    }
 
+    return this.root.numGreater(lowerBound);
   }
 }
 
