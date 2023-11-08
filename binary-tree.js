@@ -13,6 +13,41 @@ class BinaryTreeNode {
    * incomplete node-- that is, the length of the shortest path from the root to
    * a node with less than two children. */
   minDepthToIncompleteNode() {
+    /*
+      keep a counter of tiers traversed
+      Go through a whole tier and see if any are incomplete
+      if not, go to next tier
+    */
+
+      let count = 1;
+
+      const stack = [this];
+      let nextTier = [];
+
+      while (stack.length){
+        const curr = stack.pop();
+        if (!curr.right){
+          return count;
+        }
+        nextTier.push(curr.left, curr.right);
+        if(!stack.length){
+          count++;
+          stack.push(...nextTier);
+          nextTier = [];
+        }
+      }
+
+      // return count;
+
+      //base case is no incomplete nodes, whole tree traversed
+
+      //look at this node: is it incomplete? great, return 1
+                          //if not: return 1
+
+      /*
+        For each child, I'm going to follow it's line down till I find an incomplete one
+        if I don't check lines I didn't check
+      */
 
   }
 
@@ -48,7 +83,11 @@ class BinaryTree {
   // this is a stack or recursion problem; we'll use recursion
 
   minDepthToIncompleteNode() {
+    if (!this.root){
+      return 0;
+    }
 
+    return this.root.minDepthToIncompleteNode();
   }
 
   /** maxDepth(): return the maximum depth of the tree -- that is,
